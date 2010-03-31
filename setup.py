@@ -1,29 +1,29 @@
 from setuptools import setup, find_packages
-import os
 
-version = '1.0'
+version = '1.0a1'
 
 setup(name='collective.portlet.banners',
       version=version,
       description="A portlet to rotate clickable banners.",
       long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+                       open("CHANGES.txt").read(),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
         "Framework :: Plone",
         "Programming Language :: Python",
         ],
-      keywords='',
-      author='',
-      author_email='',
-      url='http://svn.plone.org/svn/collective/',
+      keywords='Plone portlet banner rotating image sponsor logo',
+      author='Matt Yoder',
+      author_email='mattyoder@groundwire.org',
+      url='http://svn.plone.org/svn/collective/collective.portlet.banners/trunk',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['collective', 'collective.portlet'],
       include_package_data=True,
       zip_safe=False,
       install_requires=[
+          'plone.app.blob',
           'setuptools',
       ],
       entry_points="""
