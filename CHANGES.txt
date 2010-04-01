@@ -1,6 +1,9 @@
 Changelog
 =========
 
+- Fixed links to portlet banners in folder contents and added upgrade step.
+  [2010-04-01 - yomatters]
+
 1.0a1 - 2010-03-31
 ------------------
 
