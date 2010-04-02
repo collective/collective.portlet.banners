@@ -1,6 +1,10 @@
 Changelog
 =========
 
+- Removed conditional comment attribute from jsregistry for compatibility with
+  older versions of Plone.
+  [2010-04-02 - yomatters]
+
 - Fixed links to portlet banners in folder contents and added upgrade step.
   [2010-04-01 - yomatters]
 
