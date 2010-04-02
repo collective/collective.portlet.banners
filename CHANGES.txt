@@ -1,6 +1,9 @@
 Changelog
 =========
 
+1.0a2 - 2010-04-02
+------------------
+
 - Removed conditional comment attribute from jsregistry for compatibility with
   older versions of Plone.
   [2010-04-02 - yomatters]
