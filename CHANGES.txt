@@ -1,6 +1,13 @@
 Changelog
 =========
 
+1.0a3 - unreleased
+------------------
+
+- changed the portlet permission to plone.app.portlets.ManagePortlets
+  [vangheem]
+  
+
 1.0a2 - 2010-04-02
 ------------------
 
