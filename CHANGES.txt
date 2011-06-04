@@ -7,6 +7,8 @@ Changelog
 - changed the portlet permission to plone.app.portlets.ManagePortlets
   [vangheem]
   
+- fix call to get banners.
+  [vangheem]
 
 1.0a2 - 2010-04-02
 ------------------

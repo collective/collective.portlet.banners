@@ -4,12 +4,10 @@ from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
 from plone.app.form.widgets.uberselectionwidget import UberSelectionWidget
-from plone.app.layout.navigation.root import getNavigationRoot
 from plone.memoize.instance import memoize
 from zope import schema
 from zope.formlib import form
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from Products.CMFCore.utils import getToolByName
 import random
 import time
 import md5
@@ -159,13 +157,10 @@ class Renderer(base.Renderer):
         Returns a list of dictionaries containing information about the
         unscaled banners.
         """
-        catalog_tool = getToolByName(self.context, 'portal_catalog')
-        path = getNavigationRoot(self.context, relativeRoot=self.data.banner_folder)
-        brains = catalog_tool.searchResults(
-            path=path,
-            sort_on='getObjPositionInParent',
-            portal_type='PortletBanner',
-        )
+        from zope.app.component.hooks import getSite
+        site = getSite()
+        folder = site.restrictedTraverse(self.data.banner_folder.lstrip('/'))
+        brains = folder.getFolderContents({'portal_type' : 'PortletBanner'})
         if self.data.order == u'random':
             brains = [b for b in brains]
             random.shuffle(brains)
