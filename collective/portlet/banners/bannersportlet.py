@@ -159,7 +159,9 @@ class Renderer(base.Renderer):
         """
         from zope.app.component.hooks import getSite
         site = getSite()
-        folder = site.restrictedTraverse(self.data.banner_folder.lstrip('/'))
+        folder = site.restrictedTraverse(self.data.banner_folder.lstrip('/'), None)
+        if not folder:
+            return []
         brains = folder.getFolderContents({'portal_type' : 'PortletBanner'})
         if self.data.order == u'random':
             brains = [b for b in brains]
