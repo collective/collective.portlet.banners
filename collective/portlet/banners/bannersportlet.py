@@ -1,5 +1,6 @@
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.app.component.hooks import getSite
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
@@ -8,6 +9,7 @@ from plone.memoize.instance import memoize
 from zope import schema
 from zope.formlib import form
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.CMFCore.utils import getToolByName
 import random
 import time
 import md5
@@ -112,6 +114,7 @@ class Renderer(base.Renderer):
         """
         Returns a list of dictionaries containing information about the banners.
         """
+
         display = 'block'
         for banner_info in self.getBannerInfo():
             width, height = self.getBannerDimensions(banner_info)
@@ -157,12 +160,13 @@ class Renderer(base.Renderer):
         Returns a list of dictionaries containing information about the
         unscaled banners.
         """
-        from zope.app.component.hooks import getSite
-        site = getSite()
-        folder = site.restrictedTraverse(self.data.banner_folder.lstrip('/'), None)
-        if not folder:
-            return []
-        brains = folder.getFolderContents({'portal_type' : 'PortletBanner'})
+        catalog_tool = getToolByName(self.context, 'portal_catalog')
+        site_path = '/'.join(getSite().getPhysicalPath())
+        brains = catalog_tool.searchResults(
+            path='%s%s' % (site_path, self.data.banner_folder),
+            sort_on='getObjPositionInParent',
+            portal_type='PortletBanner',
+        )
         if self.data.order == u'random':
             brains = [b for b in brains]
             random.shuffle(brains)
