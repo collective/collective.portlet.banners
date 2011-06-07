@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0a3 - unreleased
+1.0a3 - 2011-06-07
 ------------------
 
 - changed the portlet permission to plone.app.portlets.ManagePortlets
