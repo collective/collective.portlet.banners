@@ -160,8 +160,9 @@ class Renderer(base.Renderer):
         Returns a list of dictionaries containing information about the
         unscaled banners.
         """
+        site = getSite()
         catalog_tool = getToolByName(self.context, 'portal_catalog')
-        site_path = '/'.join(getSite().getPhysicalPath())
+        site_path = '/'.join(site.getPhysicalPath())
         brains = catalog_tool.searchResults(
             path='%s%s' % (site_path, self.data.banner_folder),
             sort_on='getObjPositionInParent',
@@ -170,7 +171,16 @@ class Renderer(base.Renderer):
         if self.data.order == u'random':
             brains = [b for b in brains]
             random.shuffle(brains)
-        return [b.porletbanner_info for b in brains if hasattr(b, 'porletbanner_info') and b.porletbanner_info]
+        results = []
+        for brain in brains:
+            info = getattr(brain, 'porletbanner_info', None)
+            if info:
+                site_url = site.absolute_url()
+                image = info.get('image', '')
+                if not image.startswith('http://') and not image.startswith('https://'):
+                    info['image'] = site_url + image
+                results.append(info)
+        return results
     
     @memoize
     def getMaxHeight(self):

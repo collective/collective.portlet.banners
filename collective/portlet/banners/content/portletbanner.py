@@ -6,6 +6,7 @@ from Products.ATContentTypes.interface import image as atimage
 from collective.portlet.banners.config import PROJECTNAME
 from collective.portlet.banners.interfaces import IPortletBanner
 from collective.portlet.banners import BannerPortletMessageFactory as _
+from zope.app.component.hooks import getSite
 
 PortletBannerSchema = \
     ATBlobSchema.copy() + \
@@ -36,11 +37,12 @@ class PortletBanner(ATBlob):
         """
         Gets information about the portlet banner for cataloging.
         """
-        
+        site = getSite()       
+        site_path = '/'.join(site.getPhysicalPath())
         image = self.getImage()
         if image.filename:        
             return {
-                'image': image.absolute_url(),
+                'image': '/'.join(image.getPhysicalPath())[len(site_path):],
                 'url': self.getUrl(),
                 'height': image.height,
                 'width': image.width,
