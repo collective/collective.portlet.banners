@@ -73,6 +73,11 @@ class IBannersPortlet(IPortletDataProvider):
         default=u'folder'
     )
 
+    use_caching = schema.Bool(
+        title=_(u"Use Caching"),
+        description=_(u"Might not work properly in some invironemnts"),
+        default=True)
+
 
 class Assignment(base.Assignment):
     """
@@ -80,14 +85,17 @@ class Assignment(base.Assignment):
     """
 
     implements(IBannersPortlet)
+    use_caching = True
 
-    def __init__(self, portlet_title=u'Banners', banner_folder=u'/', delay=5, fade_speed=600, width=120, order=u'folder'):
-       self.portlet_title = portlet_title
-       self.banner_folder = banner_folder
-       self.delay = delay
-       self.fade_speed = fade_speed
-       self.width = width
-       self.order = order
+    def __init__(self, portlet_title=u'Banners', banner_folder=u'/', delay=5,
+                 fade_speed=600, width=120, order=u'folder', use_caching=True):
+        self.portlet_title = portlet_title
+        self.banner_folder = banner_folder
+        self.delay = delay
+        self.fade_speed = fade_speed
+        self.width = width
+        self.order = order
+        self.use_caching = use_caching
 
     @property
     def title(self):
@@ -172,14 +180,19 @@ class Renderer(base.Renderer):
             brains = [b for b in brains]
             random.shuffle(brains)
         results = []
+        site_url = site.absolute_url()
         for brain in brains:
-            info = getattr(brain, 'porletbanner_info', None)
+            if getattr(self.data, 'use_caching', True):
+                info = getattr(brain, 'porletbanner_info', None)
+            else:
+                obj = brain.getObject()
+                info = obj.porletbanner_info()
             if info:
-                site_url = site.absolute_url()
                 image = info.get('image', '')
                 if not image.startswith('http://') and not image.startswith('https://'):
                     info['image'] = site_url + image
                 results.append(info)
+            results.append(info)
         return results
     
     @memoize
@@ -198,6 +211,7 @@ class Renderer(base.Renderer):
         random_id.update(str(time.time()))
         return 'portletbanners-%s' % random_id.hexdigest()
 
+
 class AddForm(base.AddForm):
     """
     Add form for the banners portlet.
@@ -208,6 +222,7 @@ class AddForm(base.AddForm):
 
     def create(self, data):
         return Assignment(**data)
+
 
 class EditForm(base.EditForm):
     """

@@ -4,6 +4,10 @@ Changelog
 1.0a4 - unreleased
 ------------------
 
+- provide ability to not use catalog results for banners. Will be
+  slower but might fix some cases.
+  [vangheem]
+
 - fix cataloging banner info. Only index relative urls since absolute 
   won't work if edit site is different than production and ssl/non-ssl
   [vangheem]
