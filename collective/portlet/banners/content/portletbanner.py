@@ -6,8 +6,13 @@ from Products.ATContentTypes.interface import image as atimage
 from collective.portlet.banners.config import PROJECTNAME
 from collective.portlet.banners.interfaces import IPortletBanner
 from collective.portlet.banners import BannerPortletMessageFactory as _
-from zope.app.component.hooks import getSite
-
+try:
+    # Plone < 4.3
+    from zope.app.component.hooks import setSite
+except ImportError:
+    # Plone >= 4.3
+    from zope.component.hooks import setSite
+    
 PortletBannerSchema = \
     ATBlobSchema.copy() + \
     atapi.Schema((
