@@ -1,6 +1,5 @@
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleVocabulary
-from zope.app.component.hooks import getSite
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
 from plone.app.vocabularies.catalog import SearchableTextSourceBinder
@@ -14,6 +13,13 @@ import random
 import time
 import md5
 from collective.portlet.banners import BannerPortletMessageFactory as _
+try:
+    # Plone < 4.3
+    from zope.app.component.hooks import setSite
+except ImportError:
+    # Plone >= 4.3
+    from zope.component.hooks import setSite
+
 
 
 class IBannersPortlet(IPortletDataProvider):
