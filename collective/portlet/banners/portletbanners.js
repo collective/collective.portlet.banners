@@ -1,6 +1,6 @@
-jq.fn.portletBanners = function(delay, fade_speed) {
-    jq(this).each(function() {
-        var container = jq(this);
+$.fn.portletBanners = function(delay, fade_speed) {
+    $(this).each(function() {
+        var container = $(this);
         var items = container.find('.portletbanner');
         container.height(container.height());
         container.width(container.width());
