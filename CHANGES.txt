@@ -1,8 +1,14 @@
 Changelog
 =========
 
-1.0a4 - unreleased
-------------------
+1.0 - 2013-09-11
+----------------
+
+- use $ instead of jq
+  [lepri]
+
+- zope.component.hooks import fix for plone 4.3
+  [senner]
 
 - provide ability to not use catalog results for banners. Will be
   slower but might fix some cases.
@@ -33,7 +39,7 @@ Changelog
   [2010-04-01 - yomatters]
 
 1.0a1 - 2010-03-31
-------------------
+-----------------
 
 - Initial work on portlet and content type.
   [2010-03-18 - yomatters]
